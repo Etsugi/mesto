@@ -1,0 +1,14 @@
+.popup__container {
+  position: fixed;
+  top: 195px;
+  left: 0;
+  right: 0;
+  margin: 0 auto;
+  padding: 0;
+  width: 470px;
+  display: grid;
+  grid-template-columns: auto auto;
+  grid-template-rows: auto auto;
+  gap: 0;
+  z-index: 1;
+}

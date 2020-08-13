@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mesto</title>
+  <link rel="stylesheet" href="./pages/index.css">
+</head>
+<body class="root">
+
+  <header class="header">
+
+    <div class="header__logo"></div>
+
+  </header>
+
+  <main class="content">
+
+    <section class="profile">
+
+      <img class="profile__avatar" alt="Фото профиля" src="./images/kusto.jpg">
+      <div class="profile__info">
+        <div class="profile__info-group">
+          <h1 class="profile__name">Жак-Ив Кусто</h1>
+          <button type="button" class="profile__edit-button"></button>
+        </div>
+        <p class="profile__description">Исследователь океана</p>
+      </div>
+      <button type="button" class="profile__add-button"></button>
+
+    </section>
+
+    <section class="elements">
+
+      <figure class="element">
+        <img class="element__image" alt="Аризона" src="./images/Arizona.jpg">
+        <div class="element__group">
+          <p class="element__text">Аризона</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+      <figure class="element">
+        <img class="element__image" alt="Калифорния" src="./images/California.jpg">
+        <div class="element__group">
+          <p class="element__text">Калифорния</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+      <figure class="element">
+        <img class="element__image" alt="Латвия" src="./images/Latvia.jpg">
+        <div class="element__group">
+          <p class="element__text">Латвия</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+      <figure class="element">
+        <img class="element__image" alt="Монтана" src="./images/Montana.jpg">
+        <div class="element__group">
+          <p class="element__text">Монтана</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+      <figure class="element">
+        <img class="element__image" alt="Юта" src="./images/Utah.jpg">
+        <div class="element__group">
+          <p class="element__text">Юта</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+      <figure class="element">
+        <img class="element__image" alt="Ванака" src="./images/Wanaka.jpg">
+        <div class="element__group">
+          <p class="element__text">Ванака</p>
+          <button type="button" class="element__like-button"></button>
+        </div>
+      </figure>
+
+    </section>
+
+  </main>
+
+  <footer class="footer">
+
+    <p class="footer__copyright">&copy; 2020 Mesto Russia</p>
+
+  </footer>
+
+<div class="popup">
+  <div class="popup__container">
+    <button type="button" class="popup__close-button"></button>
+    <form class="popup__form">
+      <h2 class="popup__form-heading">Редактировать профиль</h2>
+      <input type="text" placeholder="Имя" class="popup__field-name">хер</input>
+      <input type="text" placeholder="Описание" class="popup__field-description">моржовый</input>
+      <button type="button" class="popup__save-button">Сохранить</button>
+    </form>
+  </div>
+  <div class="popup__overlay"></div>
+</div>
+
+<script src="./script.js"></script>
+
+</body>
+</html>
