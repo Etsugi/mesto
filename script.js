@@ -46,13 +46,6 @@ function formSubmitHandler (evt) {
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-
-//popupSaveButton.addEventListener('click', formSubmitHandler);
 popupForm.addEventListener('submit', formSubmitHandler);
-
-//честно говоря не понял зачем здесь submit
-//popupSaveButton.addEventListener('submit', formSubmitHandler);
-
-
 popupOpenButton.addEventListener('click', popupOpenCheckCount);//вызов функции открытия/закрытия попапа
 popupCloseButton.addEventListener('click', popupOpenClose);//вызов функции открытия/закрытия попапа
