@@ -1,52 +1,58 @@
 let popup = document.querySelector('.popup');
+let popupOpenButton = document.querySelector('.profile__edit-button');//кнопка открытия попапа
+let popupCloseButton = document.querySelector('.popup__close-button');//кнопка закрытия попапа
+let popupSaveButton = document.querySelector('.popup__save-button');//кнопка сохранения попапа
+let popupForm = document.querySelector('.popup__form');//форма
+let profileName = document.querySelector ('.profile__name');//значение имени
+let profileDescription = document.querySelector ('.profile__description');//значение описания
+let nameInput =  popupForm.querySelector('.popup__input_name');//поле имени формы
+let jobInput =  popupForm.querySelector('.popup__input_description');//поле описания формы
+let popupFirstOpenCount = 0;
 
-// открытие, закрытие попапа
-let popupOpenButton = document.querySelector('.profile__edit-button');
-let popupCloseButton = document.querySelector('.popup__close-button');
-
-popupOpenButton.addEventListener('click', popupOpenClose);
-popupCloseButton.addEventListener('click', popupOpenClose);
-
+//функция открытия/закрытия попапа
 function popupOpenClose () {
   popup.classList.toggle('popup_opened');
 }
 
-// начало работы с формой ввода попапа
-let popupForm = document.querySelector('.popup__form');
+//функция считывания значений строк при первом открытии попапа
+function popupFirstOpen () {
+  nameInput.value = profileName.textContent;
+  jobInput.value = profileDescription.textContent;
+  popupOpenClose ();
+}
 
-// считываем начальное значение строк формы из разметки
-let profileName = document.querySelector ('.profile__name');
-let profileDescription = document.querySelector ('.profile__description');
+//Функция для вычисления первого открытия попапа
+function popupOpenCheckCount () {
+  if (popupFirstOpenCount < 1) {
+    popupFirstOpen ();
+    popupFirstOpenCount++;
+  }
+  else {
+    popupOpenClose ();
+  }
+}
 
-// Находим поля формы в DOM
-let nameInput =  popupForm.querySelector('.popup__field-name');
-let jobInput =  popupForm.querySelector('.popup__field-description');
-
-// задаём значение строк для первого открытия попапа
-nameInput.value = profileName.textContent;
-jobInput.value = profileDescription.textContent;
-
+//функция редактирования строк формы
 function formSubmitHandler (evt) {
     evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
     // Так мы можем определить свою логику отправки.
     // О том, как это делать, расскажем позже.
 
-    ///считываем значение строки формы
-    nameInput =  popupForm.querySelector('.popup__field-name');
-    jobInput =  popupForm.querySelector('.popup__field-description');
+    profileName.textContent = nameInput.value;//присваиваем новые значения с помощью textContent
+    profileDescription.textContent = jobInput.value;//присваиваем новые значения с помощью textContent
 
-    // присваиваем новые значения с помощью textContent
-    profileName.textContent = nameInput.value;
-    profileDescription.textContent = jobInput.value;
-
-    //закрываем попап
-    popup.classList.toggle('popup_opened');
+    popupOpenClose ();//закрываем попап
 }
 
 // Прикрепляем обработчик к форме:
 // он будет следить за событием “submit” - «отправка»
-let popupSaveButton = document.querySelector('.popup__save-button');
-popupSaveButton.addEventListener('click', formSubmitHandler);
+
+//popupSaveButton.addEventListener('click', formSubmitHandler);
+popupForm.addEventListener('submit', formSubmitHandler);
 
 //честно говоря не понял зачем здесь submit
 //popupSaveButton.addEventListener('submit', formSubmitHandler);
+
+
+popupOpenButton.addEventListener('click', popupOpenCheckCount);//вызов функции открытия/закрытия попапа
+popupCloseButton.addEventListener('click', popupOpenClose);//вызов функции открытия/закрытия попапа

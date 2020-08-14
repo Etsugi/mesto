@@ -1,7 +1,7 @@
-@import url(./__image/element__image.css);
-@import url(./__group/element__group.css);
-@import url(./__text/element__text.css);
-@import url(./__like-buttont/element__like-button.css);
+@import url("./__image/element__image.css");
+@import url("./__group/element__group.css");
+@import url("./__text/element__text.css");
+@import url("./__like-buttont/element__like-button.css");
 
 .element {
   position: relative;
