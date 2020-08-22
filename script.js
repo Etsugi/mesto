@@ -27,30 +27,29 @@ const initialCards = [
 ];
 
 //автор
-let popupAuthor = document.querySelector('#edit-author');
-let popupAuthorOpenButton = document.querySelector('.profile__edit-button');
-let popupAuthorCloseButton = popupAuthor.querySelector('.popup__close-button');
-let popupAuthorForm = document.querySelector('.popup__form');
-let profileName = document.querySelector ('.profile__name');
-let profileDescription = document.querySelector ('.profile__description');
-let nameInput =  popupAuthorForm.querySelector('.popup__input_name');
-let jobInput =  popupAuthorForm.querySelector('.popup__input_description');
+const popupAuthor = document.querySelector('#edit-author');
+const popupAuthorOpenButton = document.querySelector('.profile__edit-button');
+const popupAuthorCloseButton = popupAuthor.querySelector('.popup__close-button');
+const popupAuthorForm = document.querySelector('.popup__form');
+const profileName = document.querySelector ('.profile__name');
+const profileDescription = document.querySelector ('.profile__description');
+const nameInput =  popupAuthorForm.querySelector('.popup__input_name');
+const jobInput =  popupAuthorForm.querySelector('.popup__input_description');
 
 //карточки
-let popupCard = document.querySelector('#add-card');
-let popupCardOpenButton = document.querySelector('.profile__add-button');
-let popupCardCloseButton = popupCard.querySelector('.popup__close-button');
-let popupCardForm = popupCard.querySelector('.popup__form');
-let cardTitle = document.querySelector ('.element__text');
-let cardSource = document.querySelector ('.element__image');
-let titleInput =  popupCardForm.querySelector('.popup__input_title');
-let sourceInput =  popupCardForm.querySelector('.popup__input_source');
+const popupCard = document.querySelector('#add-card');
+const popupCardOpenButton = document.querySelector('.profile__add-button');
+const popupCardCloseButton = popupCard.querySelector('.popup__close-button');
+const popupCardForm = popupCard.querySelector('.popup__form');
+const cardTitle = document.querySelector ('.element__text');
+const cardSource = document.querySelector ('.element__image');
+const titleInput =  popupCardForm.querySelector('.popup__input_title');
+const sourceInput =  popupCardForm.querySelector('.popup__input_source');
 const cardContainer = document.querySelector('.elements');
 const cardTemplate = document.querySelector('#card-template').content;
-let cardElement = cardTemplate.cloneNode(true);
 
 //картинки
-let popupImage = document.querySelector('#image-popup');
+const popupImage = document.querySelector('#image-popup');
 
 //функции попапа автора
 function popupAuthorOpenClose () {
@@ -81,7 +80,7 @@ function addElement(evt) {
   evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
     // Так мы можем определить свою логику отправки.
     // О том, как это делать, расскажем позже.
-  cardElement = cardTemplate.cloneNode(true);
+  let cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.element__image').alt = titleInput.value;
   cardElement.querySelector('.element__text').textContent = titleInput.value;
