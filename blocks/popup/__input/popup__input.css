@@ -9,3 +9,11 @@
   border: none;
   border-bottom: 1px solid #000000;
 }
+
+@media all and (min-width: 320px) and (max-width: 767px) {
+  .popup__input {
+    max-width: 62.5vw;
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

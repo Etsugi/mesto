@@ -1,7 +1,9 @@
 @import url("./__image/element__image.css");
 @import url("./__group/element__group.css");
 @import url("./__text/element__text.css");
-@import url("./__like-buttont/element__like-button.css");
+@import url("./__like-button/element__like-button.css");
+@import url("./__like-button/_active/element__like-button_active.css");
+@import url("./__trash-button/element__trash-button.css");
 
 .element {
   position: relative;
