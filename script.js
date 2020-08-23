@@ -41,8 +41,6 @@ const popupCard = document.querySelector('#add-card');
 const popupCardOpenButton = document.querySelector('.profile__add-button');
 const popupCardCloseButton = popupCard.querySelector('.popup__close-button');
 const popupCardForm = popupCard.querySelector('.popup__form');
-const cardTitle = document.querySelector ('.element__text');
-const cardSource = document.querySelector ('.element__image');
 const titleInput =  popupCardForm.querySelector('.popup__input_title');
 const sourceInput =  popupCardForm.querySelector('.popup__input_source');
 const cardContainer = document.querySelector('.elements');
@@ -59,6 +57,7 @@ function popupAuthorOpenClose () {
 function popupAuthorReadString () {
   nameInput.value = profileName.textContent;
   jobInput.value = profileDescription.textContent;
+
   popupAuthorOpenClose ();
 }
 
@@ -68,31 +67,13 @@ function formSubmitHandler (evt) {
     // О том, как это делать, расскажем позже.
     profileName.textContent = nameInput.value;
     profileDescription.textContent = jobInput.value;
+
     popupAuthorOpenClose ();
 }
 
 //функции карточек
 function popupCardOpenClose () {
   popupCard.classList.toggle('popup_opened');
-}
-
-function addElement(evt) {
-  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
-    // Так мы можем определить свою логику отправки.
-    // О том, как это делать, расскажем позже.
-  let cardElement = cardTemplate.cloneNode(true);
-
-  cardElement.querySelector('.element__image').alt = titleInput.value;
-  cardElement.querySelector('.element__text').textContent = titleInput.value;
-  cardElement.querySelector('.element__image').src = sourceInput.value;
-
-  cardLike(cardElement);
-  cardDelete (cardElement);
-
-  cardContainer.prepend (cardElement);
-  titleInput.value = '';
-  sourceInput.value = '';
-  popupCardOpenClose ();
 }
 
 function cardLike (cardElement) {
@@ -107,6 +88,42 @@ function cardDelete (cardElement) {
   })
 }
 
+function createCard(cardTitle, cardSource) {
+  const cardElement = cardTemplate.cloneNode(true);
+
+  cardElement.querySelector('.element__image').alt = cardTitle;
+  cardElement.querySelector('.element__text').textContent = cardTitle;
+  cardElement.querySelector('.element__image').src = cardSource;
+
+  cardLike(cardElement);
+  cardDelete (cardElement);
+  popupImageOpenClose (cardElement);
+
+  cardContainer.prepend (cardElement);
+
+  titleInput.value = '';
+  sourceInput.value = '';
+
+  popupCardOpenClose ();
+}
+
+function addCard (evt) {
+  evt.preventDefault(); // Эта строчка отменяет стандартную отправку формы.
+  // Так мы можем определить свою логику отправки.
+  // О том, как это делать, расскажем позже.
+  cardTitle = titleInput.value;
+  cardSource = sourceInput.value;
+  createCard(cardTitle, cardSource);
+}
+
+//начальный вывод карточек
+initialCards.forEach (function (item) {
+  cardTitle = item.title;
+  cardSource = item.source;
+
+  createCard(cardTitle, cardSource);
+})
+
 //картинки
 function popupImageOpenClose (cardElement) {
   cardElement.querySelector('.element__image').addEventListener('click', function (evt) {
@@ -116,26 +133,9 @@ function popupImageOpenClose (cardElement) {
     popupImage.querySelector('.popup__image-description').textContent = evt.target.alt;
     popupImage.querySelector('.popup__close-button').addEventListener('click', function (evt) {
       popupImage.classList.remove('popup_opened');
-      console.log (evt);
     })
   })
 }
-
-//начальный вывод карточек
-initialCards.forEach (function (item) {
-  const cardElement = cardTemplate.cloneNode(true);
-
-  cardElement.querySelector('.element__image').alt = item.title;
-  cardElement.querySelector('.element__text').textContent = item.title;
-  cardElement.querySelector('.element__image').src = item.source;
-
-  cardLike(cardElement);
-  cardDelete (cardElement);
-  popupImageOpenClose (cardElement);
-
-  cardContainer.append (cardElement);
-})
-
 
 //реакции на попап автора
 popupAuthorForm.addEventListener('submit', formSubmitHandler);
@@ -143,7 +143,7 @@ popupAuthorOpenButton.addEventListener('click', popupAuthorReadString);
 popupAuthorCloseButton.addEventListener('click', popupAuthorOpenClose);
 
 //реакции на попап карточек
-popupCardForm.addEventListener('submit', addElement);
+popupCardForm.addEventListener('submit', addCard);
 popupCardOpenButton.addEventListener('click', popupCardOpenClose);
 popupCardCloseButton.addEventListener('click', popupCardOpenClose);
 
