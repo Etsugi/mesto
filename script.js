@@ -71,6 +71,20 @@ function formSubmitHandler (evt) {
     popupAuthorOpenClose ();
 }
 
+//функция картинок (по идее, в иерархии она должна быть ниже функций карточек,
+//однако в карточках вызывается эта функция, потому вот так)
+function popupImageOpenClose (cardElement) {
+  cardElement.querySelector('.element__image').addEventListener('click', function (evt) {
+    popupImage.classList.add('popup_opened');
+    popupImage.querySelector('.popup__image').src = evt.target.src;
+    popupImage.querySelector('.popup__image').alt = evt.target.alt;
+    popupImage.querySelector('.popup__image-description').textContent = evt.target.alt;
+    popupImage.querySelector('.popup__close-button').addEventListener('click', function (evt) {
+      popupImage.classList.remove('popup_opened');
+    })
+  })
+}
+
 //функции карточек
 function popupCardOpenClose () {
   popupCard.classList.toggle('popup_opened');
@@ -123,19 +137,6 @@ initialCards.forEach (function (item) {
 
   createCard(cardTitle, cardSource);
 })
-
-//картинки
-function popupImageOpenClose (cardElement) {
-  cardElement.querySelector('.element__image').addEventListener('click', function (evt) {
-    popupImage.classList.add('popup_opened');
-    popupImage.querySelector('.popup__image').src = evt.target.src;
-    popupImage.querySelector('.popup__image').alt = evt.target.alt;
-    popupImage.querySelector('.popup__image-description').textContent = evt.target.alt;
-    popupImage.querySelector('.popup__close-button').addEventListener('click', function (evt) {
-      popupImage.classList.remove('popup_opened');
-    })
-  })
-}
 
 //реакции на попап автора
 popupAuthorForm.addEventListener('submit', formSubmitHandler);
