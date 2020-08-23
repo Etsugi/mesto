@@ -123,7 +123,7 @@ function popupImageOpenClose (cardElement) {
 
 //начальный вывод карточек
 initialCards.forEach (function (item) {
-  cardElement = cardTemplate.cloneNode(true);
+  const cardElement = cardTemplate.cloneNode(true);
 
   cardElement.querySelector('.element__image').alt = item.title;
   cardElement.querySelector('.element__text').textContent = item.title;
