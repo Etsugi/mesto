@@ -1,0 +1,4 @@
+.popup__overlay_for-image {
+  opacity: 0.9;
+  outline: 1px solid red;
+}
