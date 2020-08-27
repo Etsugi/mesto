@@ -22,5 +22,4 @@
   visibility: hidden;
   opacity: 0;
   transition: visibility 0.1s ease-in-out, opacity 0.1s ease-in-out;
-  outline: 1px solid red;
 }
