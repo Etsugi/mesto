@@ -22,14 +22,6 @@
     cursor: pointer;
   }
 
-.popup__save-button:disabled {
-  opacity: 0.2;
-  color: #000000;
-  background: #FFFFFF;
-  outline: 1px solid #000000;
-  cursor: auto;
-}
-
   @media all and (min-width: 320px) and (max-width: 767px) {
     .popup__save-button {
       max-width: 62.5vw;

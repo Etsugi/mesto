@@ -9,6 +9,7 @@
 @import url("./__input/_error/popup__input_error.css");
 @import url("./__input/_error/popup__input_error-active.css");
 @import url("./__save-button/popup__save-button.css");
+@import url("./__save-button/_disabled/popup__save-button_disabled.css");
 @import url("./__close-button/popup__close-button.css");
 @import url("./__overlay/popup__overlay_for-image.css");
 @import url("./__image-container/popup__image-container.css");

@@ -22,11 +22,11 @@
       <div class="profile__info">
         <div class="profile__info-group">
           <h1 class="profile__name">Жак-Ив Кусто</h1>
-          <button type="button" class="profile__edit-button"></button>
+          <button type="button" class="profile__edit-button" id="edit-profile"></button>
         </div>
         <p class="profile__description">Исследователь океана</p>
       </div>
-      <button type="button" class="profile__add-button"></button>
+      <button type="button" class="profile__add-button" id="add-card"></button>
 
     </section>
 
@@ -42,7 +42,7 @@
 
   </footer>
 
-<div class="popup" id="edit-author">
+<div class="popup" id="edit-profile-popup">
   <form name="author_info" class="popup__form" novalidate>
     <h2 class="popup__form-heading">Редактировать профиль</h2>
     <input type="text" name="name" placeholder="Имя" minlength="2" maxlength="40"
@@ -57,7 +57,7 @@
   <div class="popup__overlay"></div>
 </div>
 
-<div class="popup" id="add-card">
+<div class="popup" id="add-card-popup">
   <form name="new-card-form" class="popup__form" novalidate>
     <h2 class="popup__form-heading">Новое место</h2>
     <input type="text" name="title" placeholder="Название" minlength="1" maxlength="30"
@@ -66,7 +66,7 @@
     <input type="url" name="source" placeholder="Ссылка на картинку"
       class="popup__input popup__input_source" required>
       <span class='popup__input_error' id='source-input-error'></span>
-    <button type="submit" class="popup__save-button">Создать</button>
+    <button type="submit" class="popup__save-button" disabled>Создать</button>
     <button type="button" class="popup__close-button"></button>
   </form>
   <div class="popup__overlay"></div>
@@ -92,8 +92,9 @@
   </article>
 </template>
 
-<script src="./script.js"></script>
+<script src="./initial.js"></script>
 <script src="./validate.js"></script>
+<script src="./script.js"></script>S
 
 </body>
 </html>
