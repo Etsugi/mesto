@@ -38,9 +38,11 @@ function closePopupEsc () {
   if (event.key === 'Escape') {
     if (popupAuthor.classList.contains('popup_opened')){
       closePopup (popupAuthor);
+      removeEventListenersOnAuthorPopup ();
     }
     else if (popupCard.classList.contains('popup_opened')){
       closePopup (popupCard);
+      removeEventListenersOnCardPopup ();
     }
     else if (popupImage.classList.contains('popup_opened')){
       closePopup(popupImage);
@@ -51,38 +53,44 @@ function closePopupEsc () {
 
 //функции автора
 //редактирует профиль автора
-function formSubmitHandler (evt) {
-    evt.preventDefault();
+function formSubmitHandler () {
+    event.preventDefault();
     profileName.textContent = nameInput.value;
     profileDescription.textContent = descriptionInput.value;
     closePopup (popupAuthor);
 }
+//слушатель формы попапа автора
+function popupAuthorFormSubmit () {
+  formSubmitHandler ();
+  removeEventListenersOnAuthorPopup ();
+}
+//слушатель кнопки закрытия попапа автора
+function popupAuthorCloseButtonClick () {
+  closePopup (popupAuthor);
+  removeEventListenersOnAuthorPopup ();
+}
+//слушатель оверлея попапа автора
+function popupAuthorOverleyClick () {
+  closePopup (popupAuthor);
+  removeEventListenersOnAuthorPopup ();
+}
+//слушатель Esc попапа автора
+function popupAuthorClickEsc () {
+  closePopupEsc (popupAuthor);
+}
 //удаляет слушателей из попапа автора
 function removeEventListenersOnAuthorPopup () {
-  popupAuthorForm.removeEventListener('submit',  formSubmitHandler);
-  popupAuthorCloseButton.removeEventListener('click', function () {
-    closePopup (popupAuthor);
-  });
-  popupAuthor.querySelector('.popup__overlay').removeEventListener('click', function () {
-    closePopup (popupAuthor);
-  });
-  document.removeEventListener('keydown', closePopupEsc);
+  popupAuthorForm.removeEventListener('submit', popupAuthorFormSubmit);
+  popupAuthorCloseButton.removeEventListener('click', popupAuthorCloseButtonClick);
+  popupAuthor.querySelector('.popup__overlay').removeEventListener('click', popupAuthorOverleyClick);
+  document.removeEventListener('keydown', popupAuthorClickEsc);
 }
 //добавляет слушателей в попап автора
-function addEventListenersOnAuthorPopup (evt) {
-  popupAuthorForm.addEventListener('submit', formSubmitHandler);
-  popupAuthorCloseButton.addEventListener('click', function () {
-    closePopup (popupAuthor);
-    removeEventListenersOnAuthorPopup ();
-  });
-  popupAuthor.querySelector('.popup__overlay').addEventListener('click', function () {
-    closePopup (popupAuthor);
-    removeEventListenersOnAuthorPopup ();
-  });
-  document.addEventListener('keydown', function () {
-    closePopupEsc (popupAuthor);
-    removeEventListenersOnAuthorPopup ();
-  });
+function addEventListenersOnAuthorPopup () {
+  popupAuthorForm.addEventListener('submit', popupAuthorFormSubmit);
+  popupAuthorCloseButton.addEventListener('click', popupAuthorCloseButtonClick);
+  popupAuthor.querySelector('.popup__overlay').addEventListener('click', popupAuthorOverleyClick);
+  document.addEventListener('keydown', popupAuthorClickEsc);
 }
 //считывает значения строк при открытии попапа
 function readStringPopupAuthor () {
@@ -128,44 +136,48 @@ function renderCard (cardElement) {
   return cardContainer.prepend (createCard(cardElement));
 }
 //считывает поля формы создания карточки
-function addCard (evt) {
-  evt.preventDefault();
+function addCard () {
+  event.preventDefault();
   const title = titleInput.value;
   const source = sourceInput.value;
   const data = {title, source};
   renderCard (data);
   closePopup (popupCard);
 }
+//слушатель формы попапа добавления карточек
+function popupCardFormSubmit () {
+  addCard ();
+  removeEventListenersOnCardPopup ();
+}
+//слушатель кнопки закрытия попапа добавления карточек
+function popupCardCloseButtonClick () {
+  closePopup (popupCard);
+  removeEventListenersOnCardPopup ();
+}
+//слушатель оверлея попапа добавления карточек
+function popupCardOverleyClick () {
+  closePopup (popupCard);
+  removeEventListenersOnCardPopup ();
+}
+//слушатель Esc попапа добавления карточек
+function popupCardClickEsc () {
+  closePopupEsc (popupCard);
+}
 //удаляет слушателей из попапа добавления карточек
 function removeEventListenersOnCardPopup () {
-  popupCardForm.removeEventListener('submit', addCard);
-  popupCardCloseButton.removeEventListener('click',function () {
-    closePopup (popupCard);
-  });
-  popupCard.querySelector('.popup__overlay').removeEventListener('click', function () {
-    closePopup (popupCard);
-  });
-  document.removeEventListener('keydown', function () {
-    closePopupEsc (popupCard);
-  });
+  popupCardForm.removeEventListener('submit', popupCardFormSubmit);
+  popupCardCloseButton.removeEventListener('click', popupCardCloseButtonClick);
+  popupCard.querySelector('.popup__overlay').removeEventListener('click', popupCardOverleyClick);
+  document.removeEventListener('keydown', popupCardClickEsc);
   popupCardSaveButton.classList.add('popup__save-button_disabled');
   popupCardSaveButton.disabled = true;
 }
 //добавляет слушателей в попап добавления карточек
 function addEventListenersOnCardPopup () {
-  popupCardForm.addEventListener('submit', addCard);
-  popupCardCloseButton.addEventListener('click',function () {
-    closePopup (popupCard);
-    removeEventListenersOnCardPopup ();
-  });
-  popupCard.querySelector('.popup__overlay').addEventListener('click', function () {
-    closePopup (popupCard);
-    removeEventListenersOnCardPopup ();
-  });
-  document.addEventListener('keydown', function () {
-    closePopupEsc (popupCard);
-    removeEventListenersOnCardPopup ();
-  });
+  popupCardForm.addEventListener('submit', popupCardFormSubmit);
+  popupCardCloseButton.addEventListener('click', popupCardCloseButtonClick);
+  popupCard.querySelector('.popup__overlay').addEventListener('click', popupCardOverleyClick);
+  document.addEventListener('keydown', popupCardClickEsc);
 }
 //
 function initialCardData (item) {
@@ -191,32 +203,31 @@ function popupImageCard (data) {
   popupImageDescription.textContent = data.title;
   addEventListenersOnImagePopup ();
 }
+//слушатель кнопки закрытия попапа изображений
+function popupImageCloseButtonClick () {
+  closePopup (popupImage);
+  removeEventListenersOnImagePopup ();
+}
+//слушатель оверлея попапа изображений
+function popupImageOverleyClick () {
+  closePopup (popupImage);
+  removeEventListenersOnImagePopup ();
+}
+//слушатель Esc попапа изображений
+function popupImageClickEsc () {
+  closePopupEsc (popupImage);
+}
 //удаляет слушатели с попапа изображений
 function removeEventListenersOnImagePopup () {
-  popupImage.querySelector('.popup__close-button').removeEventListener('click', function () {
-    closePopup (popupImage);
-  });
-  popupImage.querySelector('.popup__overlay_for-image').removeEventListener('click', function () {
-    closePopup (popupImage);
-  });
-  document.removeEventListener('keydown', function () {
-    closePopupEsc (popupImage);
-  });
+  popupImage.querySelector('.popup__close-button').removeEventListener('click', popupImageCloseButtonClick);
+  popupImage.querySelector('.popup__overlay_for-image').removeEventListener('click', popupImageOverleyClick);
+  document.removeEventListener('keydown', popupImageClickEsc);
 }
 //вешает слушатели на попап изображений
 function addEventListenersOnImagePopup () {
-  popupImage.querySelector('.popup__close-button').addEventListener('click', function () {
-    closePopup (popupImage);
-    removeEventListenersOnImagePopup ();
-  });
-  popupImage.querySelector('.popup__overlay_for-image').addEventListener('click', function () {
-    closePopup (popupImage);
-    removeEventListenersOnImagePopup ();
-  });
-  document.addEventListener('keydown', function () {
-    closePopupEsc (popupImage);
-    removeEventListenersOnImagePopup ();
-  });
+  popupImage.querySelector('.popup__close-button').addEventListener('click', popupImageCloseButtonClick);
+  popupImage.querySelector('.popup__overlay_for-image').addEventListener('click', popupImageOverleyClick);
+  document.addEventListener('keydown', popupImageClickEsc);
 }
 
 
