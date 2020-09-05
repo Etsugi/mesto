@@ -26,102 +26,89 @@ const popupImage = document.querySelector('#image-popup');
 
 //общие функции
 //открывает попапы
-function openPopup (evt) {
-  addEventListeners (evt);
-  document.querySelector(`#${evt.id}-popup`).classList.add('popup_opened');
+function openPopup (modalWindow) {
+  modalWindow.classList.add('popup_opened');
 }
-//добавляет в попапы слушателей
-function addEventListeners (evt) {
-  if (evt.id === 'edit-profile') {
-    popupAuthorForm.addEventListener('submit', formSubmitHandler);
-    popupAuthorCloseButton.addEventListener('click', function () {
-      closePopup (evt);
-    });
-    popupAuthor.querySelector('.popup__overlay').addEventListener('click', function () {
-      closePopup (evt);
-    });
-    document.addEventListener('keydown', closePopupEsc);
-  }
-  else if (evt.id === 'add-card') {
-    popupCardForm.addEventListener('submit', addCard);
-    popupCardCloseButton.addEventListener('click',function () {
-      closePopup (evt);
-    });
-    popupCard.querySelector('.popup__overlay').addEventListener('click', function () {
-      closePopup (evt);
-    });
-    document.addEventListener('keydown', closePopupEsc);
-  }
-};
 //закрывает попапы
-function closePopup (evt) {
-  document.querySelector(`#${evt.id}-popup`).classList.remove('popup_opened');
-  removeEventListeners (evt);
-}
-//удаляет из попапов слушаталей
-function removeEventListeners (evt) {
-  if (evt.id === 'edit-profile') {
-    popupAuthorForm.removeEventListener('submit',  formSubmitHandler);
-    popupAuthorCloseButton.removeEventListener('click', function () {
-      closePopup (evt);
-    });
-    popupAuthor.querySelector('.popup__overlay').removeEventListener('click', function () {
-      closePopup (evt);
-    });
-    document.removeEventListener('keydown', closePopupEsc);
-  }
-  else if (evt.id === 'add-card') {
-    popupCardForm.removeEventListener('submit', addCard);
-    popupCardCloseButton.removeEventListener('click',function () {
-      closePopup (evt);
-    });
-    popupCard.querySelector('.popup__overlay').removeEventListener('click', function () {
-      closePopup (evt);
-    });
-    document.removeEventListener('keydown', function () {
-      closePopupEsc (evt);
-    });
-    popupCardSaveButton.classList.add('popup__save-button_disabled');
-    popupCardSaveButton.disabled = true;
-  }
+function closePopup (modalWindow) {
+  modalWindow.classList.remove('popup_opened');
 }
 //закрывает попапы при клике Esc
-function closePopupEsc (evt) {
-  if (evt.key === 'Escape') {
-    if (popupImage.classList.contains('popup_opened')){
-      popupImageOpenClose(evt);
-    }
-    else if (popupAuthor.classList.contains('popup_opened')){
-      closePopup (popupAuthorOpenButton);
+function closePopupEsc () {
+  if (event.key === 'Escape') {
+    if (popupAuthor.classList.contains('popup_opened')){
+      closePopup (popupAuthor);
     }
     else if (popupCard.classList.contains('popup_opened')){
-      closePopup (popupCardOpenButton);
+      closePopup (popupCard);
+    }
+    else if (popupImage.classList.contains('popup_opened')){
+      closePopup(popupImage);
     }
   }
 }
 
 
 //функции автора
-//считывает значения строк при первом открытии попапа
-function popupAuthorReadString (evt) {
-  nameInput.value = profileName.textContent;
-  descriptionInput.value = profileDescription.textContent;
-  openPopup (evt);
-}
-//редактирует профиль
-function formSubmitHandler (evt, popupAuthorForm) {
+//редактирует профиль автора
+function formSubmitHandler (evt) {
     evt.preventDefault();
     profileName.textContent = nameInput.value;
     profileDescription.textContent = descriptionInput.value;
-    closePopup (popupAuthorOpenButton);
+    closePopup (popupAuthor);
+}
+//удаляет слушателей из попапа автора
+function removeEventListenersOnAuthorPopup () {
+  popupAuthorForm.removeEventListener('submit',  formSubmitHandler);
+  popupAuthorCloseButton.removeEventListener('click', function () {
+    closePopup (popupAuthor);
+  });
+  popupAuthor.querySelector('.popup__overlay').removeEventListener('click', function () {
+    closePopup (popupAuthor);
+  });
+  document.removeEventListener('keydown', closePopupEsc);
+}
+//добавляет слушателей в попап автора
+function addEventListenersOnAuthorPopup (evt) {
+  popupAuthorForm.addEventListener('submit', formSubmitHandler);
+  popupAuthorCloseButton.addEventListener('click', function () {
+    closePopup (popupAuthor);
+    removeEventListenersOnAuthorPopup ();
+  });
+  popupAuthor.querySelector('.popup__overlay').addEventListener('click', function () {
+    closePopup (popupAuthor);
+    removeEventListenersOnAuthorPopup ();
+  });
+  document.addEventListener('keydown', function () {
+    closePopupEsc (popupAuthor);
+    removeEventListenersOnAuthorPopup ();
+  });
+}
+//считывает значения строк при открытии попапа
+function readStringPopupAuthor () {
+  nameInput.value = profileName.textContent;
+  descriptionInput.value = profileDescription.textContent;
+  addEventListenersOnAuthorPopup ();
+  openPopup (popupAuthor);
 }
 
 
 //функции карточек
-//добавляет карточку в разметку
-function renderCard (cardElement) {
-  cardContainer.prepend (cardElement);
+//лайк карточки
+function likeCard (cardElement) {
+  cardElement.querySelector('.element__like-button').addEventListener('click', function (evt) {
+    evt.target.classList.toggle('element__like-button_active');
+  })
 }
+//удаление карточки
+function deleteCard (cardElement) {
+  cardElement.querySelector('.element__trash-button').addEventListener('click', function (evt) {
+    evt.target.closest(".element").remove(evt);
+  })
+}
+
+
+//функции попапа добавления карточек
 //создаёт карточку
 function createCard(data) {
   const cardElement = cardTemplate.cloneNode(true);
@@ -130,111 +117,128 @@ function createCard(data) {
   cardImage.alt = data.title;
   cardImage.src = data.source;
   cardText.textContent = data.title;
-  addEventListenersOnCard (cardElement, data);
+  likeCard (cardElement);
+  deleteCard (cardElement);
   titleInput.value = '';
   sourceInput.value = '';
-  //const cardLikeButton = cardElement.querySelector('.element__like-button').addEventListener('click', likeCard);
-  //const cardTrashButton = cardElement.querySelector('.element__trash-button').addEventListener('click', deleteCard);
-  //cardImage.addEventListener('click', popupImageCard);
-
-  renderCard (cardElement);
-
-  //console.log(data);
+  return cardElement;
 }
-
-function addEventListenersOnCard (cardElement, data) {
-  //console.log(data);
-  //const cardLikeButton = cardElement.querySelector('.element__like-button').addEventListener('click', likeCard);
-  //const cardTrashButton = cardElement.querySelector('.element__trash-button').addEventListener('click', deleteCard);
-  //cardImage.addEventListener('click', popupImageCard);
+//добавляет карточку в разметку
+function renderCard (cardElement) {
+  return cardContainer.prepend (createCard(cardElement));
 }
-
 //считывает поля формы создания карточки
 function addCard (evt) {
   evt.preventDefault();
   const title = titleInput.value;
   const source = sourceInput.value;
   const data = {title, source};
-  createCard(data);
-  closePopup (popupCardOpenButton);
+  renderCard (data);
+  closePopup (popupCard);
 }
-//лайк карточки
-function likeCard (evt) {
-  evt.target.classList.toggle('element__like-button_active');
+//удаляет слушателей из попапа добавления карточек
+function removeEventListenersOnCardPopup () {
+  popupCardForm.removeEventListener('submit', addCard);
+  popupCardCloseButton.removeEventListener('click',function () {
+    closePopup (popupCard);
+  });
+  popupCard.querySelector('.popup__overlay').removeEventListener('click', function () {
+    closePopup (popupCard);
+  });
+  document.removeEventListener('keydown', function () {
+    closePopupEsc (popupCard);
+  });
+  popupCardSaveButton.classList.add('popup__save-button_disabled');
+  popupCardSaveButton.disabled = true;
 }
-//удаление карточки
-function deleteCard (evt) {
-  evt.target.closest(".element").remove(evt);
+//добавляет слушателей в попап добавления карточек
+function addEventListenersOnCardPopup () {
+  popupCardForm.addEventListener('submit', addCard);
+  popupCardCloseButton.addEventListener('click',function () {
+    closePopup (popupCard);
+    removeEventListenersOnCardPopup ();
+  });
+  popupCard.querySelector('.popup__overlay').addEventListener('click', function () {
+    closePopup (popupCard);
+    removeEventListenersOnCardPopup ();
+  });
+  document.addEventListener('keydown', function () {
+    closePopupEsc (popupCard);
+    removeEventListenersOnCardPopup ();
+  });
 }
-//вешает на карточку слушатели
-function addCardListeners (evt) {
-  if (evt.target.classList.contains('element__like-button')) {
-    likeCard(evt);
-  }
-  if (evt.target.classList.contains('element__trash-button')) {
-    deleteCard(evt);
-  }
-  if (evt.target.classList.contains('element__image')) {
-    title = evt.target.alt;
-    source = evt.target.src;
-    data = {title, source};
-    popupImageCard (data);
-    popupImageOpenClose(data);
-  }
-}
-//начальный вывод карточек
-initialCards.forEach (function (item) {
+//
+function initialCardData (item) {
   const title = item.title;
   const source = item.source;
   const data = {title, source};
-  createCard(data);
+  return data;
+}
+//начальный вывод карточек
+initialCards.forEach (function (item) {
+  initialCardData (item);
+  renderCard (item);
 })
 
 
 //функции попапа пикч
-//
+//считывает данные изображения для его вывода в попапе изображений
 function popupImageCard (data) {
-  //console.log(data.target.src);
   const popupPicture = popupImage.querySelector('.popup__image');
   const popupImageDescription = popupImage.querySelector('.popup__image-description');
   popupPicture.src = data.source;
   popupPicture.alt = data.title;
-  popupImageDescription.textContent = data.title;;
-  popupImageListeners (data);
-}
-//вешает слушатели на попап изображений
-function popupImageListeners () {
-  popupImage.querySelector('.popup__close-button').addEventListener('click', popupImageOpenClose);
-  popupImage.querySelector('.popup__overlay_for-image').addEventListener('click', popupImageOpenClose);
-  document.addEventListener('keydown', closePopupEsc);
+  popupImageDescription.textContent = data.title;
+  addEventListenersOnImagePopup ();
 }
 //удаляет слушатели с попапа изображений
-function popupImageListenersDelete () {
-  popupImage.querySelector('.popup__close-button').removeEventListener('click', popupImageOpenClose);
-  popupImage.querySelector('.popup__overlay_for-image').removeEventListener('click', popupImageOpenClose);
-  document.removeEventListener('keydown', closePopupEsc);
+function removeEventListenersOnImagePopup () {
+  popupImage.querySelector('.popup__close-button').removeEventListener('click', function () {
+    closePopup (popupImage);
+  });
+  popupImage.querySelector('.popup__overlay_for-image').removeEventListener('click', function () {
+    closePopup (popupImage);
+  });
+  document.removeEventListener('keydown', function () {
+    closePopupEsc (popupImage);
+  });
 }
-//открывает/закрывает попап изображений
-function popupImageOpenClose () {
-  if (!popupImage.classList.contains('popup_opened')) {
-    popupImage.classList.toggle('popup_opened');
-  }
-  else {
-    popupImage.classList.toggle('popup_opened');
-    popupImageListenersDelete ();
-  }
+//вешает слушатели на попап изображений
+function addEventListenersOnImagePopup () {
+  popupImage.querySelector('.popup__close-button').addEventListener('click', function () {
+    closePopup (popupImage);
+    removeEventListenersOnImagePopup ();
+  });
+  popupImage.querySelector('.popup__overlay_for-image').addEventListener('click', function () {
+    closePopup (popupImage);
+    removeEventListenersOnImagePopup ();
+  });
+  document.addEventListener('keydown', function () {
+    closePopupEsc (popupImage);
+    removeEventListenersOnImagePopup ();
+  });
 }
 
 
 //слушатель открытия попапа автора
 popupAuthorOpenButton.addEventListener('click', function () {
-  popupAuthorReadString (popupAuthorOpenButton);
+  readStringPopupAuthor (popupAuthorOpenButton);
 });
 
 //слушатель открытия попапа добавления карточек
 popupCardOpenButton.addEventListener('click', function () {
-  openPopup (popupCardOpenButton);
+  addEventListenersOnCardPopup (popupCardOpenButton);
+  openPopup (popupCard);
 });
 
 //слушатель открытия попапа изображений
-cardContainer.addEventListener('click', addCardListeners);
+//cardContainer.addEventListener('click', popupCardEventListener);
+cardContainer.addEventListener('click', function (evt) {
+  if (evt.target.classList.contains('element__image')) {
+    const title = evt.target.alt;
+    const source = evt.target.src;
+    const data = {title, source};
+    popupImageCard (data);
+    openPopup (popupImage);
+  }
+});
