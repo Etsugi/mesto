@@ -43,7 +43,7 @@
   </footer>
 
 <div class="popup" id="edit-profile-popup">
-  <form name="author_info" class="popup__form" novalidate>
+  <form class="popup__form" novalidate>
     <h2 class="popup__form-heading">Редактировать профиль</h2>
     <input type="text" name="name" placeholder="Имя" minlength="2" maxlength="40"
       class="popup__input popup__input_name" required>
@@ -58,7 +58,7 @@
 </div>
 
 <div class="popup" id="add-card-popup">
-  <form name="new-card-form" class="popup__form" novalidate>
+  <form class="popup__form" novalidate>
     <h2 class="popup__form-heading">Новое место</h2>
     <input type="text" name="title" placeholder="Название" minlength="1" maxlength="30"
       class="popup__input popup__input_title" required>
@@ -66,7 +66,7 @@
     <input type="url" name="source" placeholder="Ссылка на картинку"
       class="popup__input popup__input_source" required>
       <span class='popup__input_error' id='source-input-error'></span>
-    <button type="submit" class="popup__save-button" disabled>Создать</button>
+    <button type="submit" class="popup__save-button">Создать</button>
     <button type="button" class="popup__close-button"></button>
   </form>
   <div class="popup__overlay"></div>
@@ -92,10 +92,9 @@
   </article>
 </template>
 
-<script src="./initial.js"></script>
-<script src="./validate.js"></script>
-<script src="./script.js"></script>
-
+<script type="module" src="./scripts/index.js"></script>
+<script type="module" src="./scripts/Card.js"></script>
+<script type="module" src="./scripts/FormValidator.js"></script>
 
 </body>
 </html>
