@@ -1,8 +1,9 @@
 export default class Card {
-  constructor (data, templateCard) {
+  constructor (data, templateCard, handleCardClick) {
     this._title = data.title;
     this._image = data.source;
     this._templateCard = templateCard;
+    this._handleCardClick = handleCardClick;
   }
 //клонирует карточку
   _getTemplate() {
@@ -31,11 +32,15 @@ export default class Card {
   _setEventListenersOnCard() {
     const likeButton = this._element.querySelector('.element__like-button');
     const deleteButton = this._element.querySelector('.element__trash-button');
+    const cardImage = this._element.querySelector('.element__image');
     likeButton.addEventListener('click', () => {
       this._likeCard(likeButton);
     });
     deleteButton.addEventListener('click', () => {
       this._deleteCard();
     })
+    cardImage.addEventListener('click', () => {
+      this._handleCardClick(event)
+    });
   }
 }

@@ -3,13 +3,13 @@ export default class FormValidator {
     this._formObject = formObject;
   }
   //выводим сообщение об ошибке
-  _showInputError = (formElement, inputElement, errorMessage, {errorClass, ...rest}) => {
+  _showInputError (formElement, inputElement, errorMessage, {errorClass, ...rest}) {
     const errorElement = formElement.querySelector(`#${inputElement.name}-input-error`);
     errorElement.textContent = errorMessage;
     errorElement.classList.add(errorClass);
   };
   //скрываем сообщение об ошибке
-  _hideInputError = (formElement, inputElement, {errorClass, ...rest}) => {
+  _hideInputError (formElement, inputElement, {errorClass, ...rest}) {
     const errorElement = formElement.querySelector(`#${inputElement.name}-input-error`);
     errorElement.classList.remove(errorClass);
     errorElement.textContent = '';
@@ -32,7 +32,7 @@ export default class FormValidator {
     }
   }
   //проверяет поле на валидность
-  _checkInputValidity = (formElement, inputElement, {...rest}) =>  {
+  _checkInputValidity (formElement, inputElement, {...rest}) {
     if (!inputElement.validity.valid) {
       this._showInputError(formElement, inputElement, inputElement.validationMessage, rest);
     }
@@ -41,7 +41,7 @@ export default class FormValidator {
     }
   };
   //получает массив инпутов и вешает на каждый слушатель
-  _setEventListeners = (formElement, {inputSelector, submitButtonSelector, ...rest}) => {
+  _setEventListeners (formElement, {inputSelector, submitButtonSelector, ...rest}) {
     const inputList = Array.from(formElement.querySelectorAll(inputSelector));
     const buttonElement = formElement.querySelector(submitButtonSelector);
     this._toggleButtonState (inputList, buttonElement, rest);
