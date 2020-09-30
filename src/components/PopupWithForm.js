@@ -1,39 +1,42 @@
 import Popup from './Popup.js';
 
-//для удаления слушателей, без них я не смог Т_Т
-let popupForm = '';
-
 export default class PopupWithForm extends Popup {
-  constructor (popupSelector, formSubmitHandler) {
+  constructor (popupSelector, {formSubmitHandler}) {
     super(popupSelector);
-    this._submit = formSubmitHandler;
+    this._formSubmitHandler = formSubmitHandler;
+    this._submit = this._submit.bind(this);
     this._form = this._popupSelector.querySelector('.popup__form');
+    //this._input = this._form.querySelectorAll('.popup__input');
+  }
+
+  _submit (evt) {
+    evt.preventDefault();
+    this._formSubmitHandler (this._getInputValues());
   }
 
   _getInputValues () {
-    this._submit ();
+    const inputsList = Array.from(this._form.querySelectorAll('.popup__input'));
+    const data = {};
+    inputsList.forEach(input => {
+      data[input.name] = input.value;
+    })
+    return data;
+
   }
 
   open () {
     super.open();
+    document.addEventListener('keydown', this._handleEscClose);
     this.setEventListenersOnForm ();
   }
 
   close () {
-    //this._form.reset();
+    this._form.reset();
+    this._form.removeEventListener('submit', this._submit);
     super.close();
-    this.removeEventListenersOnForm();
   }
 
   setEventListenersOnForm () {
-    this._form.addEventListener('submit', popupForm = () => {
-      this.close();
-      this._getInputValues();
-    });
-  }
-
-  removeEventListenersOnForm () {
-    super.removeEventListenersOnPopup(this._popupSelector);
-    this._form.removeEventListener('submit', popupForm);
+    this._form.addEventListener('submit', this._submit);
   }
 }

@@ -50,15 +50,19 @@ export default class FormValidator {
         this._checkInputValidity(formElement, inputElement, rest);
         this._toggleButtonState (inputList, buttonElement, rest);
       });
+      document.addEventListener('keydown', () => {
+        this._checkInputValidity(formElement, inputElement, rest);
+        this._toggleButtonState (inputList, buttonElement, rest);
+      });
+      document.addEventListener('click', () => {
+        this._checkInputValidity(formElement, inputElement, rest);
+        this._toggleButtonState (inputList, buttonElement, rest);
+      });
     });
   };
   //получает массив форм и снимает стандартную обработку submit
-  enableValidation ({formSelector, ...rest}, form) {
-    const formList = Array.from(form.querySelectorAll(formSelector));
-    formList.forEach((formElement) => {
-      formElement.addEventListener('submit', (evt) => {
-        evt.preventDefault();
-      });
+  enableValidation ({formSelector, ...rest}, formsList) {
+    formsList.forEach((formElement) => {
       this._setEventListeners(formElement, rest);
     });
   };
