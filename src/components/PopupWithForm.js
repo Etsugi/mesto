@@ -6,7 +6,6 @@ export default class PopupWithForm extends Popup {
     this._formSubmitHandler = formSubmitHandler;
     this._submit = this._submit.bind(this);
     this._form = this._popupSelector.querySelector('.popup__form');
-    //this._input = this._form.querySelectorAll('.popup__input');
   }
 
   _submit (evt) {
@@ -26,17 +25,15 @@ export default class PopupWithForm extends Popup {
 
   open () {
     super.open();
-    document.addEventListener('keydown', this._handleEscClose);
-    this.setEventListenersOnForm ();
   }
 
   close () {
     this._form.reset();
-    this._form.removeEventListener('submit', this._submit);
     super.close();
   }
 
-  setEventListenersOnForm () {
+  setEventListeners () {
+    super.setEventListeners();
     this._form.addEventListener('submit', this._submit);
   }
 }

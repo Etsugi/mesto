@@ -6,9 +6,7 @@ import PopupWithForm from '../components/PopupWithForm.js';
 import PopupWithImage from '../components/PopupWithImage.js';
 import Section from '../components/Section.js';
 import UserInfo from '../components/UserInfo.js';
-import {initialCards as items}  from '../components/InitialCards.js';
-import {formObject}  from '../components/utils/constants.js';
-import Popup from '../components/Popup.js';
+import {formObject, initialCards as items}  from '../components/utils/constants.js';
 
 
 //форма автора
@@ -29,49 +27,49 @@ const cardContainer = document.querySelector('.elements');
 const formsList = Array.from(document.querySelectorAll('.popup__form'));
 
 
-
 //экземпляры классов
 const formValidator = new FormValidator(formObject);
-const userInfo = new UserInfo({profileName, profileDescription});
+const popupWithAuthorForm = new PopupWithForm(popupAuthor, {
+  formSubmitHandler: (data) => {
+    userInfo.setUserInfo(data);
+    popupWithAuthorForm.close();
+  }
+});
+popupWithAuthorForm.setEventListeners ();
+const popupWithCardForm = new PopupWithForm(popupCard, {
+  formSubmitHandler: (data) => {
+    section._renderer(data);
+    popupWithCardForm.close();
+  }
+});
+popupWithCardForm.setEventListeners ();
 const popupWithImage = new PopupWithImage(popupImage);
+popupWithImage.setEventListeners ();
+const section = new Section({items,
+  renderer: (data) => {
+    const card = new Card(data, '#card-template', handleCardClick);
+    const cardElement = card.generateCard(data);
+    section.addItem(cardElement);
+  }}, cardContainer);
+const userInfo = new UserInfo({profileName, profileDescription});
+
 
 //считывает значения строк при открытии попапа
 function readStringPopupAuthor () {
   const data = userInfo.getUserInfo ();
   nameInput.value = data.name;
   descriptionInput.value = data.description;
-  const popupWithForm = new PopupWithForm(popupAuthor, {
-    formSubmitHandler: (data) => {
-      userInfo.setUserInfo(data);
-      popupWithForm.close();
-    }
-  });
-  //formValidator.enableValidation(formObject, popupAuthor);
-  popupWithForm.open();
+  popupWithAuthorForm.open();
 }
 
 //функции попапа добавления карточек
 //считывает поля формы создания карточки
 const addCardPopup = () => {
-  const popupWithForm = new PopupWithForm(popupCard, {
-    formSubmitHandler: (data) => {
-      renderer (data);
-      popupWithForm.close();
-    }
-  });
-  popupWithForm.open(popupCard);
+  popupWithCardForm.open(popupCard);
 }
 //начальное создание карточек
 const renderInitialCards = () => {
-  const section = new Section({items, renderer}, cardContainer);
   section.renderItems(items);
-}
-//создание карточек
-const renderer = (data) => {
-  const section = new Section({items, renderer}, cardContainer);
-  const card = new Card(data, '#card-template', handleCardClick);
-  const cardElement = card.generateCard();
-  section.addItem(cardElement);
 }
 //считывает попап изображения карточки
 function handleCardClick (evt) {
@@ -87,11 +85,9 @@ renderInitialCards();
 
 //слушатель открытия попапа автора
 popupAuthorOpenButton.addEventListener('click', readStringPopupAuthor);
-
 //слушатель открытия попапа добавления карточек
 popupCardOpenButton.addEventListener('click', function () {
   addCardPopup();
 });
-
 //подключаем валидацию
   formValidator.enableValidation(formObject, formsList);

@@ -9,7 +9,6 @@ export default class Popup {
   open () {
     this._popupSelector.classList.add('popup_opened');
     document.addEventListener('keydown', this._handleEscClose);
-    this.setEventListenersOnPopup ();
   }
 
   close () {
@@ -23,7 +22,7 @@ export default class Popup {
     }
   }
 
-  setEventListenersOnPopup () {
+  setEventListeners () {
     this._button.addEventListener('click', () => {
       this.close ();
     });
