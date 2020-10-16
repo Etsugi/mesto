@@ -1,6 +1,7 @@
 .popup__form {
   position: fixed;
-  top: 195px;
+  top: 50%;
+  transform: translate(0, -50%);
   left: 0;
   right: 0;
   margin: 0 auto;
@@ -15,10 +16,8 @@
   z-index: 1;
 }
 
-
 @media all and (min-width: 320px) and (max-width: 767px) {
   .popup__form {
     max-width: 75vw;
-    top: 84px;
   }
 }

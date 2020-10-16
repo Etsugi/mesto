@@ -1,18 +1,23 @@
 export default class UserInfo {
-  constructor ({profileName, profileDescription}) {
+  constructor ({profileName, profileAbout, profileAvatar}) {
     this._name = profileName;
-    this._description = profileDescription;
+    this._about = profileAbout;
+    this._avatar = profileAvatar;
   }
 
   setUserInfo (data) {
     this._name.textContent = data.name;
-    this._description.textContent = data.description;
+    this._about.textContent = data.about;
+  }
+
+  setUserAvatar (data) {
+    this._avatar.src = data.avatar;
   }
 
   getUserInfo () {
     const data = {
       name: this._name.textContent,
-      description: this._description.textContent
+      about: this._about.textContent
     };
     return data;
   }

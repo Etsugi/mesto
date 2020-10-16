@@ -1,13 +1,19 @@
 export default class Section {
-  constructor({items, renderer}, containerSelector) {
-    this._items = items;
+  constructor({renderer}, containerSelector) {
     this._renderer = renderer;
     this._сontainer = containerSelector;
   }
 
-  renderItems () {
-    this._items.forEach(element => {
-      this._renderer(element);
+  renderItems (data) {
+    data.forEach(element => {
+      const card = {
+        name: element.name,
+        link: element.link,
+        likes: element.likes,
+        _ownerId: element.owner._id,
+        _id: element._id
+      };
+      this._renderer(card);
     })
   }
 
