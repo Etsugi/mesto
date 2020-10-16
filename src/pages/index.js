@@ -33,6 +33,8 @@ const popupImageDelete = document.querySelector('#image-delete-popup');
 const formsList = Array.from(document.querySelectorAll('.popup__form'));
 //айди пользователя
 let myId = '';
+//текст кнопки
+let buttonText = '';
 
 
 //экземпляры классов
@@ -165,12 +167,12 @@ const api = new Api({
 
 //загрузка
 function visibleLoading(popupSelector) {
-  popupSelector.querySelector('.popup__save-button').textContent += '...';
+  buttonText = popupSelector.querySelector('.popup__save-button').textContent;
+  popupSelector.querySelector('.popup__save-button').textContent = 'Загрузка...';
 };
 function hiddenLoading(popupSelector) {
-  let loadingButton = popupSelector.querySelector('.popup__save-button').textContent;
-  loadingButton = loadingButton.substr(0, loadingButton.length - 3);
-  popupSelector.querySelector('.popup__save-button').textContent = loadingButton;
+  popupSelector.querySelector('.popup__save-button').textContent = buttonText;
+  buttonText = '';
 }
 
 //считывает значения строк при открытии попапа
