@@ -113,6 +113,7 @@ const section = new Section({
         api.likeCard(data)
         .then((data) => {
           card._checkLikeCounter(data);
+          card._likeCard();
         })
         .catch((err) => {
           console.log(err);
@@ -122,6 +123,7 @@ const section = new Section({
         api.disLikeCard(data)
         .then((data) => {
           card._checkLikeCounter(data);
+          card._disLikeCard();
         })
         .catch((err) => {
           console.log(err);
@@ -202,6 +204,9 @@ initialData.then((data => {
   section.renderItems(cards);
   })
 )
+.then(() => {
+  document.querySelector('.content').classList.remove('content-disabled');
+})
 .catch((err) => {
   alert(err);
 });

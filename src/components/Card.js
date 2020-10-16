@@ -36,20 +36,20 @@ export default class Card {
 
   _likeCard() {
     this._likeButton.classList.add('element__like-button_active');
-    this._likeCardClick();
+
   }
 
   _disLikeCard() {
     this._likeButton.classList.remove('element__like-button_active');
-    this._disLikeCardClick();
+
   }
 
   _checkLikeEnabled(evt) {
     if(evt.target.classList.contains('element__like-button_active')) {
-      this._disLikeCard();
+      this._disLikeCardClick();
     }
     else {
-      this._likeCard();
+      this._likeCardClick();
     }
   }
 
