@@ -34,12 +34,12 @@ export default class Card {
     return this._element;
   }
 
-  _likeCard() {
+  likeCard() {
     this._likeButton.classList.add('element__like-button_active');
 
   }
 
-  _disLikeCard() {
+  disLikeCard() {
     this._likeButton.classList.remove('element__like-button_active');
 
   }
@@ -53,20 +53,20 @@ export default class Card {
     }
   }
 
-  _checkLikeCounter (data) {
+  checkLikeCounter (data) {
     this._likeCounter.textContent = data.likes.length;
   }
 
-  _checkLike(data) {
-    this._checkLikeCounter (data);
+  checkLike(data) {
+    this.checkLikeCounter (data);
     data.likes.forEach(element => {
       if(element._id === this._myId) {
-        this._likeCard(element);
+        this.likeCard(element);
       }
     });
   }
 
-  _deleteCard() {
+  deleteCard() {
     this._element.remove();
   }
 

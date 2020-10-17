@@ -1,6 +1,6 @@
 export default class Section {
   constructor({renderer}, containerSelector) {
-    this._renderer = renderer;
+    this.renderer = renderer;
     this._сontainer = containerSelector;
   }
 
@@ -13,7 +13,7 @@ export default class Section {
         _ownerId: element.owner._id,
         _id: element._id
       };
-      this._renderer(card);
+      this.renderer(card);
     })
   }
 

@@ -46,13 +46,13 @@ const popupUpdateProfileAvatar = new PopupWithForm(popupProfileAvatar, {
     api.updateUserAvatar(data)
     .then((data) => {
       userInfo.setUserAvatar(data);
+      popupUpdateProfileAvatar.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally (() => {
       hiddenLoading(popupProfileAvatar);
-      popupUpdateProfileAvatar.close();
     })
   }
 });
@@ -82,14 +82,14 @@ const popupWithCardForm = new PopupWithForm(popupCard, {
     api.addCard(data)
     .then((data) => {
       data._ownerId = myId;
-      section._renderer(data);
+      section.renderer(data);
+      popupWithCardForm.close();
     })
     .catch((err) => {
       console.log(err);
     })
     .finally(() => {
       hiddenLoading(popupCard);
-      popupWithCardForm.close();
     })
 
   }
@@ -112,8 +112,8 @@ const section = new Section({
       likeCardClick: () => {
         api.likeCard(data)
         .then((data) => {
-          card._checkLikeCounter(data);
-          card._likeCard();
+          card.checkLikeCounter(data);
+          card.likeCard();
         })
         .catch((err) => {
           console.log(err);
@@ -122,8 +122,8 @@ const section = new Section({
       disLikeCardClick: () => {
         api.disLikeCard(data)
         .then((data) => {
-          card._checkLikeCounter(data);
-          card._disLikeCard();
+          card.checkLikeCounter(data);
+          card.disLikeCard();
         })
         .catch((err) => {
           console.log(err);
@@ -135,14 +135,14 @@ const section = new Section({
             visibleLoading(popupImageDelete);
             api.deleteCard(data)
             .then((data) => {
-              card._deleteCard(data)
+              card.deleteCard(data);
+              popupWithSubmit.close();
             })
             .catch((err) => {
               alert(err);
             })
             .finally(() => {
               hiddenLoading(popupImageDelete);
-              popupWithSubmit.close();
             })
           }
         });
@@ -152,7 +152,7 @@ const section = new Section({
       }});
     const cardElement = card.generateCard(data);
     section.addItem(cardElement);
-    card._checkLike(data)
+    card.checkLike(data)
   }}, cardContainer);
 
   popupWithImage.setEventListeners();

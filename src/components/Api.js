@@ -9,10 +9,7 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -25,10 +22,7 @@ export default class Api {
         about: data.about
       })
     }).then((res) => {
-        if(data) {
-          return res.json();
-        }
-        else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -40,10 +34,7 @@ export default class Api {
         avatar: data.avatar
       })
     }).then((res) => {
-        if(data) {
-          return res.json();
-        }
-        else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -52,10 +43,7 @@ export default class Api {
       method: 'GET',
       headers: this._headers
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -68,10 +56,7 @@ export default class Api {
         link: data.source
       })
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -82,10 +67,7 @@ export default class Api {
       body: JSON.stringify({
       })
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -94,10 +76,7 @@ export default class Api {
       method: 'PUT',
       headers: this._headers,
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
   }
 
@@ -106,16 +85,18 @@ export default class Api {
       method: 'DELETE',
       headers: this._headers,
     }).then((res) => {
-      if(res.ok) {
-        return res.json();
-      }
-      else return Promise.reject(`Ошибка: ${res.status}`);
+      return this._getResponseData(res);
     })
+  }
+
+  _getResponseData(res) {
+    if (res.ok) {
+      return res.json();
+    }
+    else return Promise.reject(`Ошибка: ${res.status}`);
   }
 
   getAllData() {
     return Promise.all([this.getUserInfo(), this.getCards()]);
   }
 }
-
-
